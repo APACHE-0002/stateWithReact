@@ -4,11 +4,21 @@ import './car.css';
 class CarList extends Component{
   state = {
     newCar: '',
-    cars: [
-      'chevette',
-      'camaro ss',
-      'brasilia'
-    ]
+    cars: []
+  }
+
+  componentDidMount(){
+    const cars = localStorage.getItem('cars');
+
+    if(cars){
+      this.setState({ cars: JSON.parse(cars)});
+    }
+  }
+
+  componentDidUpdate(_, prevState){
+    if(prevState.cars !== this.state.cars){
+      localStorage.setItem('cars', JSON.stringify(this.state.cars));
+    }
   }
 
   handleInputChange = e => {
